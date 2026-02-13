@@ -289,42 +289,6 @@ Promise.race([
 
 ---
 
-## 🔧 Common Patterns
-
-### Pattern 1: Retry Logic
-```javascript
-function fetchWithRetry(url, retries = 3) {
-  return fetch(url)
-    .catch(error => {
-      if (retries > 0) {
-        console.log(`Retrying... (${retries} left)`);
-        return fetchWithRetry(url, retries - 1);
-      }
-      throw error;
-    });
-}
-```
-
-### Pattern 2: Timeout
-```javascript
-function fetchWithTimeout(url, timeout = 5000) {
-  return Promise.race([
-    fetch(url),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Timeout')), timeout)
-    )
-  ]);
-}
-```
-
-### Pattern 3: Sequential Async
-```javascript
-async function processSequentially(items) {
-  for (const item of items) {
-    await processItem(item);  // Wait for each one
-  }
-}
-```
 
 ### Pattern 4: Loading States
 ```javascript
@@ -351,67 +315,6 @@ function loadData() {
 
 ---
 
-## ❌ Common Mistakes
-
-### 1. Forgetting milliseconds
-```javascript
-// ❌ Only 2 milliseconds!
-setTimeout(() => {}, 2);
-
-// ✅ 2 seconds
-setTimeout(() => {}, 2000);
-```
-
-### 2. Not clearing intervals
-```javascript
-// ❌ Runs forever, memory leak!
-setInterval(() => {}, 1000);
-
-// ✅ Properly cleaned up
-const id = setInterval(() => {}, 1000);
-setTimeout(() => clearInterval(id), 5000);
-```
-
-### 3. Forgetting .json()
-```javascript
-// ❌ Logs Response object, not data!
-fetch(url).then(data => console.log(data));
-
-// ✅ Properly converts to JSON
-fetch(url)
-  .then(r => r.json())
-  .then(data => console.log(data));
-```
-
-### 4. Missing error handling
-```javascript
-// ❌ Errors crash your app!
-fetch(url).then(r => r.json()).then(d => console.log(d));
-
-// ✅ Errors are handled
-fetch(url)
-  .then(r => r.json())
-  .then(d => console.log(d))
-  .catch(e => console.error(e));
-```
-
-### 5. Not returning in .then()
-```javascript
-// ❌ Chain breaks!
-promise.then(data => {
-  processData(data);  // No return!
-}).then(result => {
-  // result is undefined!
-});
-
-// ✅ Properly chained
-promise.then(data => {
-  return processData(data);  // Return!
-}).then(result => {
-  // result has the value
-});
-```
-
 ---
 
 ## 🎯 Quick Decision Guide
@@ -422,11 +325,6 @@ promise.then(data => {
 - Run something once after a delay
 - Create animations
 - Debouncing
-
-**setInterval:**
-- Repeat something regularly
-- Clocks, timers
-- Polling
 
 **fetch:**
 - Get data from APIs
