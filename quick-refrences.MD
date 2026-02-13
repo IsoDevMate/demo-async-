@@ -2,6 +2,11 @@
 
 ## 📌 The Basics
 
+**Synchronous code** executes tasks in a strict, sequential order.  Each operation must complete before the next one begins, blocking the program's flow during waiting periods—such as when reading a file or making a network request. This makes the code predictable and easy to debug, but inefficient for I/O-heavy operations, as the entire system may stall. 
+
+**Asynchronous code** allows tasks to run independently, without waiting for previous ones to finish.  It enables non-blocking execution, meaning the program can continue processing other tasks while waiting for long-running operations (like API calls) to complete. This improves responsiveness and scalability, especially in web applications, but increases complexity due to the need for patterns like callbacks, promises, or async/await. 
+
+
 ### What is Asynchronous Code?
 Code that doesn't block - it allows other code to run while waiting for something to complete.
 
