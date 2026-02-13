@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo 5: Event Listeners</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #667eea;
+      text-align: center;
+    }
+    
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 10px 5px;
+    }
+    
+    button:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .output {
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      min-height: 100px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .counter {
+      font-size: 48px;
+      text-align: center;
+      color: #667eea;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      width: 100%;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Event Listeners Demo</h1>
+    
+    <!-- Example 1: Click Events -->
+    <h2>Example 1: Click Counter</h2>
+    <button id="clickBtn">Click Me!</button>
+    <button id="resetBtn">Reset Counter</button>
+    <div class="counter" id="counter">0</div>
+    
+    <!-- Example 2: Input Events -->
+    <h2>Example 2: Live Character Count</h2>
+    <input type="text" id="textInput" placeholder="Start typing...">
+    <div class="output" id="charCount">Characters: 0</div>
+    
+    <!-- Example 3: Multiple Events -->
+    <h2>Example 3: Mouse Events</h2>
+    <button id="hoverBtn">Hover & Click Me!</button>
+    <div class="output" id="eventLog">Event log will appear here...</div>
+  </div>
+
+  <script>
+    // ============================================
+    // EXAMPLE 1: Click Counter
+    // ============================================
+    let count = 0;
+    const clickBtn = document.getElementById('clickBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const counter = document.getElementById('counter');
+    
+    // Click event listener
+    clickBtn.addEventListener('click', () => {
+      count++;
+      counter.textContent = count;
+      console.log(`Button clicked! Count: ${count}`);
+    });
+    
+    // Reset button
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      counter.textContent = count;
+      console.log('Counter reset!');
+    });
+  
+    // EXAMPLE 2: Input Events
+    
+    const textInput = document.getElementById('textInput');
+    const charCount = document.getElementById('charCount');
+    
+    // Input event fires every time the text changes
+    textInput.addEventListener('input', (event) => {
+      const length = event.target.value.length;
+      charCount.textContent = `Characters: ${length}`;
+      
+      // Change color based on length
+      if (length > 20) {
+        charCount.style.color = '#e74c3c';
+      } else if (length > 10) {
+        charCount.style.color = '#f39c12';
+      } else {
+        charCount.style.color = '#27ae60';
+      }
+    });
+    
+    // ============================================
+    // EXAMPLE 3: Multiple Event Types
+    // ============================================
+    const hoverBtn = document.getElementById('hoverBtn');
+    const eventLog = document.getElementById('eventLog');
+    
+    let eventHistory = [];
+    
+    // Helper function to update log
+    function addToLog(message) {
+      eventHistory.unshift(message);  // Add to beginning
+      if (eventHistory.length > 5) {
+        eventHistory.pop();  // Keep only last 5
+      }
+      eventLog.innerHTML = eventHistory.join('<br>');
+    }
+    
+    // Mouse enter event
+    hoverBtn.addEventListener('mouseenter', () => {
+      addToLog(' Mouse entered button');
+      hoverBtn.style.background = '#f39c12';
+    });
+    
+    // Mouse leave event
+    hoverBtn.addEventListener('mouseleave', () => {
+      addToLog(' Mouse left button');
+      hoverBtn.style.background = '#667eea';
+    });
+    
+    // Click event
+    hoverBtn.addEventListener('click', () => {
+      addToLog(' Button clicked!');
+    });
+    
+    // Double click event
+    hoverBtn.addEventListener('dblclick', () => {
+      addToLog('⚡ Double click detected!');
+    });
+    
+    console.log('🎯 Event listeners are ready!');
+    console.log('Try interacting with the page and watch the console!');
+  </script>
+
+  <!-- 
+  ============================================
+  TRY THIS:
+  1. Open this file in a browser
+  2. Click buttons and type in the input
+  3. Open browser console to see console.log messages
+  
+  CHALLENGE:
+  Add a new button that changes the page background color
+  when clicked.
+  -->
+</body>
+</html>
